@@ -130,7 +130,7 @@ def find_end_of_sentence(line):
 	# This is to handle the . case
 	for i in m:
 		if i.group(3).count('.') == 0:
-			if not (i.group(1).lower() in open('/Users/g1izzyw/Documents/CSC401/A1/TwtClassification/pn_abbrev.english').read().lower() or i.group(1).lower() in open('/Users/g1izzyw/Documents/CSC401/A1/TwtClassification/abbrev.english').read().lower()):
+			if not (i.group(1).lower() in open('/u/cs401/Wordlists/pn_abbrev.english').read().lower() or i.group(1).lower() in open('/u/cs401/Wordlists/abbrev.english').read().lower()):
 				# Two above checks are to see if it is an abbreviation
 				# THIS MIGHT FAIL IF THE ABBREV FILES ARE NOT FOUND!
 				if not bool(re.compile('\d').search(i.group(1))):
