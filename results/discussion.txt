@@ -1,0 +1,107 @@
+---
+IMPORTANT NOTE:
+To run the buildarff.py correctly, they feature file must be in the same directory as the buildarff.pr file.
+---
+
+[Question 3.1 - Celebrity potpourri]
+The following commands were executed to generate the following output:
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.functions.SMO -t potpourri.arff -x 10 -o > ./tmp/3.1outputone.txt
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.bayes.NaiveBayes -t potpourri.arff -x 10 -o > ./tmp/3.1outputtwo.txt
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.trees.J48 -t potpourri.arff -x 10 -o > ./tmp/3.1outputthree.txt
+
+The potpourri.arff file was generated using the following command:
+- python buildarff.py obama.twt kimkar.twt tyson.twt shakira.twt stephen.twt aplusk.twt ./tmp/potpourri.arff
+
+The best classification algorithm is generated when using 'weka.classifiers.functions.SMO' with a correct classified instances of 3055 and an accuracy of about 50.8% (As shown in the results below). The 'weka.classifiers.bayes.NaiveBayes' and 'weka.classifiers.trees.J48' have accuracies of about 47.5% and 44.15% respectively.
+
+ === Stratified cross-validation ===
+Correctly Classified Instances        3050               50.8333 %
+Incorrectly Classified Instances      2950               49.1667 %
+Kappa statistic                          0.41  
+Mean absolute error                      0.2453
+Root mean squared error                  0.3451
+Relative absolute error                 88.296  %
+Root relative squared error             92.6062 %
+Total Number of Instances             6000     
+
+[Question 3.2 - Pop stars]
+The following command was executed to generate the output:
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.functions.SMO -t stars.arff -x 10 -o > ./tmp/3.2output.txt
+
+The arff file was generated using:
+- python buildarff.py bspears.twt bieber.twt perry.twt gaga.twt rihanna.twt tswift.twt ./tmp/stars.arff
+
+In terms of accuracy, it is much lower compaired to that of section 3.1; at 35.95% (See below). 
+
+=== Stratified cross-validation ===
+Correctly Classified Instances        2157               35.95   %
+Incorrectly Classified Instances      3843               64.05   %
+Kappa statistic                          0.2314
+Mean absolute error                      0.2549
+Root mean squared error                  0.3588
+Relative absolute error                 91.76   %
+Root relative squared error             96.2751 %
+Total Number of Instances             6000
+
+[Question 3.3 - News]
+The following command was executed to generate the output:
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.functions.SMO -t news.arff -x 10 -o > ./tmp/3.3output.txt
+
+The arff file was generated using:
+- python buildarff.py thestar.twt cnn.twt CBCNews.twt reuters.twt onion.twt bbc.twt nytimes.twt ./tmp/news.arff
+
+Based on the results it is slightely harder to distinguish between news tweets compaired to pop-star tweets - the correctely classified instances percentage is about 31.98% to 35.95% respectively. The new feed which was the most distinguishable from each other was 'CBCNews' with 559 correct classifications (Which means it was easier to seperate CBCNews tweets from others) and the least distinguishable was 'cnn' with 148 being correctely classified.
+
+=== Confusion Matrix ===
+   a   b   c   d   e   f   g   <-- classified as
+ 516 123  50  63  78 133  37 |   a = nytimes
+ 216 395  43  83  80 102  81 |   b = onion
+ 127  55 173 152  67 396  30 |   c = thestar
+  89  92  92 236  54 381  56 |   d = bbc
+ 133  77  97 175 212 256  50 |   e = reuters
+  86  30 132 125  39 559  29 |   f = CBCNews
+ 102 130  85 183 115 237 148 |   g = cnn
+
+[Question 3.4 - Pop stars versus news]
+The output files were obtained by running the following commands:
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.functions.SMO -t starsnews.arff -x 10 -o > ./tmp/3.4outputone.txt
+- java -cp /u/cs401/WEKA/weka.jar weka.classifiers.functions.SMO -t starsnews500.arff -x 10 -o > ./tmp/3.4outputtwo.txt
+
+The arff files were generated using the following commands:
+- python buildarff.py stars:bspears.twt+bieber.twt+perry.twt+gaga.twt+rihanna.twt+tswift.twt news:thestar.twt+cnn.twt+CBCNews.twt+reuters.twt+onion.twt+bbc.twt+nytimes.twt ./tmp/starsvnews.arff
+- python buildarff.py -500 stars:bspears.twt+bieber.twt+perry.twt+gaga.twt+rihanna.twt+tswift.twt news:thestar.twt+cnn.twt+CBCNews.twt+reuters.twt+onion.twt+bbc.twt+nytimes.twt ./tmp/starsvnews500.arff
+
+The output files contained the following information:
+(The twt limit = 500 files)
+=== Stratified cross-validation ===
+Correctly Classified Instances        5776               88.8615 %
+Incorrectly Classified Instances       724               11.1385 %
+Kappa statistic                          0.7742
+Mean absolute error                      0.1114
+Root mean squared error                  0.3337
+Relative absolute error                 22.4095 %
+Root relative squared error             66.947  %
+Total Number of Instances             6500
+
+(No limit on the number of tweets)
+=== Stratified cross-validation ===
+Correctly Classified Instances        5776               88.8615 %
+Incorrectly Classified Instances       724               11.1385 %
+Kappa statistic                          0.7742
+Mean absolute error                      0.1114
+Root mean squared error                  0.3337
+Relative absolute error                 22.4095 %
+Root relative squared error             66.947  %
+Total Number of Instances             6500     
+
+The cross-validation accuracy was both about 88% - which is extremely high compaired to the other sections. I belive such a comparison is valid and that the output reflected the comparision; since the tone in which the news channels tweet and the tone in which the pop-starts tweet are extermely different we can see the accuracy is such a high percentage. For example pop-start might use a lot more "slag" rather than news channels and this will cause the classigication accuracy to increase.
+
+When using differnt sizes of tweet data, we do not see much of a change in accuracy (As shown above in the results) and I would assume that using other portions of data would not change the accuracy too much. Thus more tweet data would still result in a cross-validation accuracy of about 88%.
+
+[Question 3.5]
+Features which seems to be specially useful in all classification in all four section are the following: proper_nouns and common_nouns. Both of these features are amongst the top five features in all four sections.
+
+In terms of most informative feature we will analyzise the moder slag feature. For section 3.3 (news), the modern slag feature has the lowest ranking which for the other three section this feature has a relatively high ranking. This is probably because all news channels use the same type of modern slag in the tweets and there is litte to no variation becuase of the need to be professional in the tweets. On the other hand we have the sections with the pop-stars and the important figures, where the modern slag feature was relatively highly ranked because the modern slag used for communication differs from person to person, because there is no professional tone level for these tweets.
+
+With this being said it would seem that features such as number of sentences would be one of the top feature to classify news, due to the fact that the length of the sentences contribues very little to the professional tone. Where as for pop-stars, the lenth of sentences would not be too much of use, becuase I would assume most tweets are relatively short compaired to news tweets.
+
