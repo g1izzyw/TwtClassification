@@ -23,6 +23,7 @@ def main():
 	output = parse_file(input_f)
 	# Write to output_f
 	write_to_file(output_f, output)
+
 '''
 	Writes the output to file fname. The output is generated
 	by the function parse_file - according to A1 handout.
